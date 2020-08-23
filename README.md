@@ -4,11 +4,13 @@
 
 Simple library to tabulate your slice/array data with [olekukonko/tablewriter](https://github.com/olekukonko/tablewriter).
 
+Use `tabulate` struct tag to customize table header.
+
 - `Print(in interface{})` simply prints slice to stdout
   ```
   type Human struct {
     Username string `tabulate:"name"`
-    Age      int   
+    Age      int 
     Secret   string `tabulate:"-"`
   }
 
@@ -18,13 +20,15 @@ Simple library to tabulate your slice/array data with [olekukonko/tablewriter](h
   }
 
   tabulate.Print(d)
-  // Output:
-  // +------+-----+
-  // | NAME | AGE |
-  // +------+-----+
-  // | john |   3 |
-  // | kim  |   3 |
-  // +------+-----+
+  ```
+
+  ```
+  +------+-----+
+  | NAME | AGE |
+  +------+-----+
+  | john |   3 |
+  | kim  |   3 |
+  +------+-----+
   ```
 
 - `Fprint(table *tablewriter.Table, in interface{})` to use customized tablewriter
@@ -33,13 +37,14 @@ Simple library to tabulate your slice/array data with [olekukonko/tablewriter](h
   table.SetFooter([]string{"TOTAL", "2"})
 
   tabulate.Fprint(table, d)
-  // Output:
-  // +-------+-----+
-  // | NAME  | AGE |
-  // +-------+-----+
-  // | john  |   3 |
-  // | kim   |   3 |
-  // +-------+-----+
-  // | TOTAL |  2  |
-  // +-------+-----+
+  ```
+  ```
+  +-------+-----+
+  | NAME  | AGE |
+  +-------+-----+
+  | john  |   3 |
+  | kim   |   3 |
+  +-------+-----+
+  | TOTAL |  2  |
+  +-------+-----+
   ```
