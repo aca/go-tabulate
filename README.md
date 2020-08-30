@@ -6,7 +6,8 @@ Simple library to tabulate your slice/array data with [olekukonko/tablewriter](h
 
 Use `tabulate` struct tag to customize table header.
 
-- `Print(in interface{})` simply prints slice to stdout
+
+- `Print(in interface{})` simply prints slice to stdout in markdown format
   ```
   type Human struct {
     Username string `tabulate:"name"`
@@ -23,20 +24,18 @@ Use `tabulate` struct tag to customize table header.
   ```
 
   ```
-  +------+-----+
   | NAME | AGE |
-  +------+-----+
+  |------|-----|
   | john |   3 |
   | kim  |   3 |
-  +------+-----+
   ```
 
-- `Fprint(table *tablewriter.Table, in interface{})` to use customized tablewriter
+
+- `AppendBulk(table *tablewriter.Table, in interface{})` instead of tablewriter's `AppendBulk`
   ```
   table := tablewriter.NewWriter(os.Stdout)
-  table.SetFooter([]string{"TOTAL", "2"})
-
-  tabulate.Fprint(table, d)
+  tabulate.AppendBulk(table, d)
+  table.Render()
   ```
   ```
   +-------+-----+
@@ -44,7 +43,5 @@ Use `tabulate` struct tag to customize table header.
   +-------+-----+
   | john  |   3 |
   | kim   |   3 |
-  +-------+-----+
-  | TOTAL |  2  |
   +-------+-----+
   ```

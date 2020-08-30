@@ -9,14 +9,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func Print(in interface{}) error {
-	table := tablewriter.NewWriter(os.Stdout)
-  table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-  table.SetCenterSeparator("|")
-	return Fprint(table, in)
-}
-
-func Fprint(table *tablewriter.Table, in interface{}) error {
+func AppendBulk(table *tablewriter.Table, in interface{}) error {
 	switch reflect.TypeOf(in).Kind() {
 	case reflect.Slice, reflect.Array:
 		et := reflect.TypeOf(in).Elem()
@@ -65,7 +58,18 @@ func Fprint(table *tablewriter.Table, in interface{}) error {
 	default:
 		return errors.New("tabulate: not a slice or array")
 	}
+	return nil
+}
 
+func Print(in interface{}) error {
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+	table.SetCenterSeparator("|")
+
+	err := AppendBulk(table, in)
+	if err != nil {
+		return err
+	}
 	table.Render()
 	return nil
 }

@@ -1,17 +1,14 @@
 package tabulate_test
 
 import (
-	"os"
-
 	"github.com/aca/go-tabulate"
-	"github.com/olekukonko/tablewriter"
 )
 
 func ExampleStructSlice() {
 	type Human struct {
 		Username string `tabulate:"name"`
-		Age      int    `tabulate:"age"`
-		Secret   string `tabulate:"-"`
+		Age      int    // table header will be set to field name by default
+		Secret   string `tabulate:"-"` // "-" to ignore certain field
 	}
 
 	d := []Human{
@@ -20,13 +17,12 @@ func ExampleStructSlice() {
 	}
 
 	tabulate.Print(d)
+
 	// Output:
-	// +------+-----+
 	// | NAME | AGE |
-	// +------+-----+
+	// |------|-----|
 	// | john |   3 |
 	// | kim  |   3 |
-	// +------+-----+
 }
 
 func ExamplePointerSlice() {
@@ -42,38 +38,10 @@ func ExamplePointerSlice() {
 	}
 
 	tabulate.Print(d)
+
 	// Output:
-	// +------+-----+
 	// | NAME | AGE |
-	// +------+-----+
+	// |------|-----|
 	// | john |   3 |
 	// | kim  |   3 |
-	// +------+-----+
-}
-
-func ExampleFprint() {
-	type Human struct {
-		Username string `tabulate:"name"`
-		Age      int    `tabulate:"age"`
-		Secret   string `tabulate:"-"`
-	}
-
-	d := []Human{
-		{"john", 3, "password1"},
-		{"kim", 3, "password2"},
-	}
-
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetFooter([]string{"TOTAL", "2"})
-
-	tabulate.Fprint(table, d)
-	// Output:
-  // +-------+-----+
-  // | NAME  | AGE |
-  // +-------+-----+
-  // | john  |   3 |
-  // | kim   |   3 |
-  // +-------+-----+
-  // | TOTAL |  2  |
-  // +-------+-----+
 }
